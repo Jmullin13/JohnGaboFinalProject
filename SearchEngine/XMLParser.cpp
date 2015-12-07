@@ -13,7 +13,7 @@
 #include <sstream>
 #include <string.h>
 
-#include "../../rapidxml-1.13/rapidxml.hpp"
+#include "rapidxml.hpp"
 
 #include "XMLParser.h"
 #include "Stopwatch.h"
@@ -22,25 +22,31 @@
 #include "StopWordRemover.h"
 #include "stemmedWords.h"
 #include "RefWord.h"
+#include "AVLTreeIndex.h"
+#include "DocIndexTable.h"
+#include <stdlib.h>
+#include "Dictionary.h"
 
 
 using namespace std;
 
 XMLParser::XMLParser(){
     
-    cout << "in XMLParser" << endl ;
+}
+
+void XMLParser::prepWord(string& word){
+    word.erase(std::remove_if(word.begin(), word.end(), std::not1(std::ptr_fun(::isalnum))), word.end());//removes non alphanumeric chars
+    transform(word.begin(), word.end(), word.begin(), ::tolower);//forces to lowercase
+}
+
+AvlTree<RefWord>* XMLParser::parse(){
     
-    ifstream myfile("wikidump.xml");
-    
+    cout << "Welcome to XMLParser" << endl ;
+    ifstream myfile("wikidump100.xml");
     rapidxml::xml_document<> doc; //create parser instance
-    
-    cout << endl <<"READING FILE INTO A STRING" << endl;
-    Stopwatch<> sw0;
+
     string buffer2((istreambuf_iterator<char>(myfile)), (istreambuf_iterator<char>()));     //read file into a string
-    sw0.stop();
-    cout << " reading to a stream took: " << sw0.elapsed()/1000000 << " seconds" << endl;
-    
-    
+
     
     
     cout << endl <<"PARSING" << endl;
@@ -49,166 +55,120 @@ XMLParser::XMLParser(){
     sw.stop();
     cout << " parsing took: " << sw.elapsed()/1000000 << " seconds" << endl;
     
-    
-    
-    
-    cout << endl <<"STEMMING" << endl;
-    string word = "running";
-    Porter2Stemmer::stem(word);
-    cout << "running -> " << word << endl;
-    
-    string a = "runner";
-    string b = "running";
-    string c = "run";
-    
-    StemmedWords list;
-    
-    if (list.isStemmedWord(a)!=true){
-        Porter2Stemmer::stem(a);
-        list.insert(a);
-    }
-    
-    if (list.isStemmedWord(b)!=true){
-        Porter2Stemmer::stem(b);
-        list.insert(b);
-    }
-    
-    if (list.isStemmedWord(c)!=true){
-        Porter2Stemmer::stem(c);
-        list.insert(c);
-    }
-    list.print();
-    
-    
-    
-    
-    
-    
-    cout << endl << "STOPWORDS" << endl;
-    Stopwatch<> sw3;
-    StopWordRemover remover;
-    sw3.stop();
-    cout << "StopWordSet fill took: " << sw3.elapsed()/1000000 << " seconds" << endl;
-    
-    string tester = "the";
-    if (remover.isStopWord(tester)){
-        cout << "found a stop word" << endl;
-    }
-    else {
-        cout << "not a stop word" << endl;
-    }
-    
-    
-    //STEMMER
-    //don't stem every word.
-    //build a stemmed list as you go on
-    
-    //if in stemmed list, move to next
-    //if not in stemmed list, then stem
-        //add to stemmedList
-   
-    //REMOVE STOP WORDS
-    //check every word if it is a stop word
-    //if it is, delete it
-    //else, do nothing
-    
-    cout << endl << "TRAVERSE" << endl;
     StopWordRemover stopWordRemover;
+    
+    cout << endl << "PARSE" << endl;//-------------------------------------------------------------------------------------------------
     char* start;
     char* endWord;
     char* pageBeginning;
+    char* pageStart;
+    char* pageID;
     
     rapidxml::xml_node<>*curNode = doc.first_node()->first_node("page");//goes to first <page> marking
     rapidxml::xml_node<>* titleNode;
     
-    char* pageStart;
-    bool stopWord;
-    int page = 1;
-    int stemEnd;
-    char* buffer;
-    bool hasWord = false;
-    int length;
-    DocObject *myDoc = new DocObject();
-    RefWord refword;
-    
-    pair<int,int> addMe (1,2);
-    pair<int, int> addMe2 = make_pair (2,3);
-    
-    refword.addRecord(addMe);
-    refword.addRecord(addMe2);
-    
-    refword.print();
+    AvlTree<RefWord>* mytree = new AvlTree<RefWord>();
+    StemmedWords stemmedWords;
     
     Stopwatch<> sw4;
+    cout << "Parsing..." << endl;
     while(curNode != nullptr)   //for every document
     {
         titleNode = curNode->first_node("title");
         start = titleNode->next_sibling("revision")->first_node("text")->value();//takes iterator to first text in page
+        pageID =curNode->first_node("id")->value();
+        
+        int intPageID = atoi (pageID);
         pageStart = start;
         pageBeginning = start;
         endWord = strchr(start, ' ');//gets first word
         
         while(endWord != nullptr)
         {
-            string inputWord(start, endWord);//creates string to be indexed
+            string inputWord(start, endWord);//finds the word for indexing
             
-            prepWord(inputWord);//preps the word to be indexed
-            
-            start = endWord+1;//moves the char pointer to the start of the next word
+            prepWord(inputWord);//removes unnecesary characters
+           
+            start = endWord+1;//moves through to next word
             
             endWord = strchr(start,' ');//gets the ending of the word
-            //------------------------------------------Stemmer-----------------------------------------------------
-            Porter2Stemmer::stem(word);
             
+            Porter2Stemmer::stem(inputWord);//stem the word
+           
+            DocIndexTable docIndexTable;   //maps an index for each document
             
+            docIndexTable.updateRecord(inputWord);  //records word repeats
             
-            //-----------------------------------------StopWords---------------------------------------------------------
+            //docIndexTable.print();
             
-            //buffer = const_cast<char*>(inputWord.c_str());//casts as non-const to pass in
+            RefWord *refWord = new RefWord();  //create word Node to store
             
-            //length = strlen(buffer)-1;//sets to length minus 1 to be pointing to the last char
+            refWord->setWord(inputWord);        //add term to word Node
+            refWord->addRecord(intPageID, 2);      //fill with exemplarary records
+            refWord->addRecord(3, 5);
             
-            //inputWord = inputWord.substr(0, stemEnd);//creates a new truncated (stemmed) string
-            
-            
-//            if(stopWord == false)
-//            {
-//                hasWord = AVLIndex->search(page, inputWord, AVLIndex->getRoot());//checks to see if word is already in index
-//                if(hasWord == false)
-//                {
-//                    AVLIndex->setRoot(AVLIndex->insert(inputWord, page, AVLIndex->getRoot()));
-//                }
-//            }
+            if(stopWordRemover.isStopWord(inputWord) != true){  //move over stop words
+                bool isInTree = mytree->search(inputWord, mytree->getRoot());   //check to make sure it is not in tree
+                if (!isInTree) {
+                    mytree->insert(*refWord);  //add node to AVL tree
+                }
+            }
         }
         
-        curNode = curNode->next_sibling("page");
-        
+        mytree->printTreeToFile();  //copy to persistent data
+        curNode = curNode->next_sibling("page");    //move to next page
     }
+    
+    mytree->printTree();    //show the data is being stored
+    
     sw4.stop();
     cout << endl <<  "Traversing DOM tree took: " << sw4.elapsed()/1000000 << " seconds" << endl;
-
+    return mytree;//return tree to IndexHandler
     
-    
-    
-    
-    
-    
-    
-    
-    
-    //set root node
-    
-    
-    //test xml_document
-    
-    //cout << "Name of my first node is: " << doc.first_node()->name() << "\n";
-
 }
 
-void XMLParser::prepWord(string& word){
-    //remove non alphanumeric chars
-    //force to lowercas
+RefWord XMLParser::parseIndex(string searchQuery){  //parse the inverted index file we created using the User's Search Query to find Documents
+    cout << "Welcome to XMLParser" << endl ;
+    ifstream myfile("InvertedIndex.xml");
+    rapidxml::xml_document<> doc; //create parser instance
+    string buffer2((istreambuf_iterator<char>(myfile)), (istreambuf_iterator<char>()));     //read file into a string
+
+    doc.parse<0>(&buffer2[0]); //parse file into DOM tree
     
-    word.erase(std::remove_if(word.begin(), word.end(), std::not1(std::ptr_fun(::isalnum))), word.end());//removes non alphanumeric chars
-    transform(word.begin(), word.end(), word.begin(), ::tolower);//forces to lowercase
+    StopWordRemover stopWordRemover;
+    
+    char* start;
+    char* endWord;
+    char* word;
+    char* docID;
+    char* termFreq;
+    
+    rapidxml::xml_node<>*curNode = doc.first_node()->first_node("page");//goes to first <page> marking
+    rapidxml::xml_node<>* titleNode;
+    
+    RefWord refWord;
+    
+    Stopwatch<> sw4;
+    while(curNode != nullptr)   //for every document
+    {
+        endWord = strchr(start, ' ');//gets first word
+        titleNode = curNode->first_node("name");    //goes to name tag
+        word =curNode->first_node("name")->value(); //saves the name value as the word
+        std::string stringWord(word);   //cast for passing
+        refWord.setWord(stringWord);    //save term
+        
+        while(curNode != nullptr) {
+            docID = titleNode->next_sibling("record")->first_node("docId")->value();
+            termFreq =titleNode->next_sibling("record")->first_node("termFreq")->value();
+            curNode = curNode->next_sibling("word");
+       
+        int frequency = atoi (termFreq);    //find each document and frequency record
+        int document = atoi (docID);
+        refWord.addRecord(document, frequency); //save to node
+        }
+    
+    }
+    return refWord; //return node to be compared with others for final results listing
+    
 }
+

@@ -12,9 +12,6 @@
 #include <stdio.h>
 
 
-
-
-
 /**
  * @file porter2_stemmer.h
  * @author Sean Massung

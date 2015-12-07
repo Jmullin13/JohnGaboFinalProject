@@ -24,7 +24,6 @@ public:
     
     RefWord(){
         word = "empty";
-        records;
     }
     
     std::string getWord(){
@@ -43,7 +42,17 @@ public:
         word = setword;
     }
     
+    void addRecord(int firstInt, int secondInt){ //
+    
+        std::pair<int, int> addPair = std::make_pair(firstInt, secondInt);
+        
+        records.push_back(addPair);
+    }
+    
+    
     void addRecord(std::pair<int,int>& addPair ){
+        
+        
         records.push_back(addPair);
     }
     
@@ -52,10 +61,6 @@ public:
         {
             std::cout << records[i].first << ", " << records[i].second << std::endl;
         }
-    }
-    
-    void makePair(){
-        
     }
     
 };

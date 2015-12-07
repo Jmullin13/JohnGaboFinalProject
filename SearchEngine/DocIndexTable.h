@@ -13,16 +13,22 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 class DocIndexTable{
 private:
     int docID;
     std::vector<std::pair<std::string, int>> docRecords; //word, term frequency
+    std::vector<std::string> checkList;
     
 public:
     DocIndexTable(){
         docID = -1;
-
+     
+    };
+    
+    int getDocRecordssSize(){
+        return docRecords.size();
     };
     
     void setDocID(int newDocID){
@@ -33,6 +39,7 @@ public:
         return docRecords;
     };
     
+    
     void addRecord(std::string& inputString, int inputInt){
         
         std::pair<std::string, int> addRecord = std::make_pair (inputString, inputInt);
@@ -41,7 +48,7 @@ public:
     };
     
     
-    bool isWordRecord(std::string& reference){
+    bool isWordRecord(std::string& reference){  //check if word is in the records vector
         for(int i = 0; i < docRecords.size(); i++){
             if (docRecords[i].first == reference){
                 return true;
@@ -51,27 +58,31 @@ public:
         return false;
     };
     
-    int updateRecord(std::string& reference){
+    
+    void updateRecord(std::string& reference){//either adds a term to the records vector or counters its frequency
+        int check = 0;
+        
         for(int i = 0; i < docRecords.size(); i++){
+
             if (docRecords[i].first == reference){
                 docRecords[i].second++;
                 break;
+                check++;
             }
         }
-        return -1;
+        if(check== 0)
+            addRecord(reference, 1);
     };
     
     
-    void print(){
+    void print(){//print set
         for(int i = 0; i < docRecords.size(); i++)
         {
             std::cout << docRecords[i].first << ", " << docRecords[i].second << std::endl;
         }
     };
     
-    
 
-    
     
     
   

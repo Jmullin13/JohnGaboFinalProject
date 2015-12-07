@@ -13,6 +13,8 @@
 
 #include <stdio.h>
 #include <string>
+#include "AVLTreeIndex.h"
+#include "RefWord.h"
 
 
 class XMLParser{
@@ -21,6 +23,10 @@ private:
 public:
     XMLParser();
     void prepWord(std::string&);
+    AvlTree<RefWord>* parse();
+    RefWord parseIndex(string searchQuery);
+ 
+    void parseAllFiles(int option);
 };
 
  

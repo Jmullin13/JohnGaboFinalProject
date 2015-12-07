@@ -18,11 +18,11 @@ StemmedWords::StemmedWords(){
     set<string> stemmedList;
 }
 
-void StemmedWords::insert(std::string& word){
+void StemmedWords::insert(std::string& word){//add word
     stemmedList.insert(word);
 }
 
-bool StemmedWords::isStemmedWord(std::string& word){
+bool StemmedWords::isStemmedWord(std::string& word){//check if word is in the set
     if(stemmedList.find(word) == stemmedList.end()){
         return false;
     }
@@ -31,7 +31,7 @@ bool StemmedWords::isStemmedWord(std::string& word){
     }
 }
 
-void StemmedWords::print(){
+void StemmedWords::print(){//iterate through and print
     set<string>::iterator iter;
     cout << "Stemmed List:" << endl;
     cout << "set size: " << stemmedList.size() << endl;

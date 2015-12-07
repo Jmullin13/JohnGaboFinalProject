@@ -80,13 +80,8 @@ public:
     //gets an item
     AvlTree<RefWord>* get(string key) {
         
-     
         std::hash<std::string> hash_fn;
         std::size_t hash = key.length();
-        
-        //hashFunction(key);
-        
-       // cout << "In get Function" << endl;
         
         if (map[hash] == NULL)
             return NULL;
@@ -114,8 +109,6 @@ public:
         map[hash] = new DictionaryItem(key, value);
     }
     
-
-
     
     
 };

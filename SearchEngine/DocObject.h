@@ -12,7 +12,7 @@
 
 using namespace std;
 
-class DocObject {
+class DocObject {//used for referencing a document's data when returning listings
     
 private:
     
@@ -23,7 +23,7 @@ private:
     
 public:
     
-    DocObject(string t, string u, string d, int r){
+    DocObject(string t, string u, string d, int r){ //stores all pertinent document information
         
         title = t;
         username = u;
@@ -34,9 +34,9 @@ public:
     
     DocObject(){
         
-        
     }
     
+    //setters
     void setTitle(string t){
         
         title = t;
@@ -51,6 +51,8 @@ public:
         
         date = d;
     }
+    
+    //getters
     
     string getTitle(){
         
@@ -70,7 +72,6 @@ public:
         return date;
         
     }
-    
     
     
     int getRanking(){

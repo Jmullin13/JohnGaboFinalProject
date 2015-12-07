@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		7ABF62AD1C14F1CE0014ADE1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ABF62AC1C14F1CE0014ADE1 /* main.cpp */; };
+		7ABF62E61C14F2300014ADE1 /* IndexHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ABF62D91C14F2300014ADE1 /* IndexHandler.cpp */; };
+		7ABF62E71C14F2300014ADE1 /* Stemmer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ABF62DC1C14F2300014ADE1 /* Stemmer.cpp */; };
+		7ABF62E91C14F2300014ADE1 /* StopWordRemover.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ABF62E01C14F2300014ADE1 /* StopWordRemover.cpp */; };
+		7ABF62EA1C14F2300014ADE1 /* XMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ABF62E31C14F2300014ADE1 /* XMLParser.cpp */; };
+		7ABF62ED1C14F2560014ADE1 /* stemmedWords.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ABF62EB1C14F2560014ADE1 /* stemmedWords.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +28,26 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7A5EC4AA1C15996C003DC770 /* Dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dictionary.h; sourceTree = "<group>"; };
+		7A5EC4AB1C15996C003DC770 /* Query.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Query.h; sourceTree = "<group>"; };
 		7ABF62A91C14F1CE0014ADE1 /* SearchEngine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SearchEngine; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ABF62AC1C14F1CE0014ADE1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		7ABF62D71C14F2300014ADE1 /* AVLTreeIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVLTreeIndex.h; sourceTree = "<group>"; };
+		7ABF62D81C14F2300014ADE1 /* DocObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocObject.h; sourceTree = "<group>"; };
+		7ABF62D91C14F2300014ADE1 /* IndexHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndexHandler.cpp; sourceTree = "<group>"; };
+		7ABF62DA1C14F2300014ADE1 /* IndexHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexHandler.h; sourceTree = "<group>"; };
+		7ABF62DB1C14F2300014ADE1 /* RefWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefWord.h; sourceTree = "<group>"; };
+		7ABF62DC1C14F2300014ADE1 /* Stemmer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stemmer.cpp; sourceTree = "<group>"; };
+		7ABF62DD1C14F2300014ADE1 /* Stemmer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stemmer.h; sourceTree = "<group>"; };
+		7ABF62DF1C14F2300014ADE1 /* Stopwatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stopwatch.h; sourceTree = "<group>"; };
+		7ABF62E01C14F2300014ADE1 /* StopWordRemover.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StopWordRemover.cpp; sourceTree = "<group>"; };
+		7ABF62E11C14F2300014ADE1 /* StopWordRemover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopWordRemover.h; sourceTree = "<group>"; };
+		7ABF62E21C14F2300014ADE1 /* stopWords.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stopWords.txt; sourceTree = "<group>"; };
+		7ABF62E31C14F2300014ADE1 /* XMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XMLParser.cpp; sourceTree = "<group>"; };
+		7ABF62E41C14F2300014ADE1 /* XMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLParser.h; sourceTree = "<group>"; };
+		7ABF62EB1C14F2560014ADE1 /* stemmedWords.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stemmedWords.cpp; sourceTree = "<group>"; };
+		7ABF62EC1C14F2560014ADE1 /* stemmedWords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stemmedWords.h; sourceTree = "<group>"; };
+		7ABF62EF1C14F46F0014ADE1 /* DocIndexTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocIndexTable.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +80,25 @@
 		7ABF62AB1C14F1CE0014ADE1 /* SearchEngine */ = {
 			isa = PBXGroup;
 			children = (
+				7A5EC4AA1C15996C003DC770 /* Dictionary.h */,
+				7A5EC4AB1C15996C003DC770 /* Query.h */,
+				7ABF62EB1C14F2560014ADE1 /* stemmedWords.cpp */,
+				7ABF62EC1C14F2560014ADE1 /* stemmedWords.h */,
+				7ABF62D71C14F2300014ADE1 /* AVLTreeIndex.h */,
+				7ABF62D91C14F2300014ADE1 /* IndexHandler.cpp */,
+				7ABF62DA1C14F2300014ADE1 /* IndexHandler.h */,
+				7ABF62DC1C14F2300014ADE1 /* Stemmer.cpp */,
+				7ABF62DD1C14F2300014ADE1 /* Stemmer.h */,
+				7ABF62E01C14F2300014ADE1 /* StopWordRemover.cpp */,
+				7ABF62E11C14F2300014ADE1 /* StopWordRemover.h */,
+				7ABF62E41C14F2300014ADE1 /* XMLParser.h */,
+				7ABF62E31C14F2300014ADE1 /* XMLParser.cpp */,
+				7ABF62EF1C14F46F0014ADE1 /* DocIndexTable.h */,
+				7ABF62D81C14F2300014ADE1 /* DocObject.h */,
+				7ABF62DB1C14F2300014ADE1 /* RefWord.h */,
 				7ABF62AC1C14F1CE0014ADE1 /* main.cpp */,
+				7ABF62E21C14F2300014ADE1 /* stopWords.txt */,
+				7ABF62DF1C14F2300014ADE1 /* Stopwatch.h */,
 			);
 			path = SearchEngine;
 			sourceTree = "<group>";
@@ -118,7 +159,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7ABF62E91C14F2300014ADE1 /* StopWordRemover.cpp in Sources */,
+				7ABF62E71C14F2300014ADE1 /* Stemmer.cpp in Sources */,
+				7ABF62EA1C14F2300014ADE1 /* XMLParser.cpp in Sources */,
 				7ABF62AD1C14F1CE0014ADE1 /* main.cpp in Sources */,
+				7ABF62E61C14F2300014ADE1 /* IndexHandler.cpp in Sources */,
+				7ABF62ED1C14F2560014ADE1 /* stemmedWords.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +281,7 @@
 				7ABF62B21C14F1CE0014ADE1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

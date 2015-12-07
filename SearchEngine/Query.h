@@ -63,12 +63,11 @@ public:
       
     }
     
-    void AND(){
+    void AND(){//directs the search engine when an AND is queried
         
         cout << "AND Called" << endl;
         
         XMLParser *parser = new XMLParser();
-        parser->parseThroughIndex(searchWords);
         
         
         bool notIsCalled = false;
@@ -96,11 +95,10 @@ public:
         
     }
     
-    void OR(){
+    void OR(){//directs the search engine when an OR is queried
         
         cout << "OR Called" << endl;
         XMLParser *parser = new XMLParser();
-        parser->parseThroughIndex(searchWords);
         
         bool notIsCalled = false;
         for (int i = 0; i < searchWords.size(); i++){
@@ -109,9 +107,7 @@ public:
                 
                 notIsCalled = true;
                 break;
-                
             }
-            
             
         }
         
@@ -151,7 +147,6 @@ public:
         
     }
     
-    //SEARCH
     
 };
 
